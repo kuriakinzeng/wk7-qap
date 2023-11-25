@@ -102,7 +102,3 @@ A = Uwp(tau)
 B = Vwp(tau)
 C = Wwp(tau) + hp(tau) * tp(tau)
 assert (A * B == C, "AB != C")
-
-# Note: In reality we deal with w that's encrypted with 
-# G1, G2 points, so it would have been pairing (A, B) = C
-# It'd be interesting to do it here

@@ -77,12 +77,12 @@ def generate_proof(x, y):
     # assert (np.all([is_on_curve_G2(pt) for pt in Rs2])) 
     # TODO: no idea how to do this yet, but it's not critical right now
 
-    # # Comment out as pairing takes a while to run
-    # # Check the pairing first
-    # for i in range(len(Ls1)):
-    #     a = pairing(Rs2[i], Ls1[i]) 
-    #     b = pairing(G2, Os1[i])
-    #     assert eq(a, b), "Some pairing failed"
+    # Check the pairing first
+    # Comment out as pairing takes a while to run
+    for i in range(len(Ls1)):
+        a = pairing(Rs2[i], Ls1[i]) 
+        b = pairing(G2, Os1[i])
+        assert eq(a, b), "Some pairing failed"
 
     # Convert the big numbers into strings so that they can be passed to Solidity
     Ls1_str = [[repr(el) for el in pair] for pair in Ls1]
