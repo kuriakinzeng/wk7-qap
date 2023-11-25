@@ -3,6 +3,11 @@ pragma solidity ^0.8.10;
 
 contract R1CSVerifier {
 
+    event Log1(ECPoint pt);
+    event Log2(ECPoint2 pt2);
+    event LogInt(uint256 num);
+    event LogStr(string msg);
+
     struct ECPoint {
         uint256 x;
         uint256 y;
@@ -24,7 +29,7 @@ contract R1CSVerifier {
 
     // This function should verify 0 = -ls1 * rs2 + os1 * G2 where ls1, rs2, os1 are the elements of the respective matrices
     // TODO: Convert this to private later
-    function _verify_row(ECPoint memory ls1, ECPoint2 memory rs2, ECPoint memory os1) public view returns (bool) {
+    function _verify_row(ECPoint memory ls1, ECPoint2 memory rs2, ECPoint memory os1) public returns (bool) {
         ECPoint2 memory G2 = ECPoint2(
             [   
                 10857046999023057135944570762232829481370756359578518086990519993285655852781, 
@@ -53,25 +58,30 @@ contract R1CSVerifier {
             G2.y[0]
         ];
 
+        bool success;
+
         assembly {
-            let success := staticcall(gas(), 0x08, points, mul(12, 0x20), points, 0x20)
-            if success { 
-                return(points, 0x20) 
-            }
+            success := staticcall(gas(), 0x08, points, mul(12, 0x20), points, 0x20)
         }
 
-        // emit LogFlag(123456789);
+        if (success) {
+            return true;
+        }
 
         return false;
     }
     
     function verify(ECPoint[] memory Ls1, ECPoint2[] memory Rs2, ECPoint[] memory Os1) public returns (bool) {
         // TODO: Check the if the inputs are valid before proceeding
+        bool success;
         for (uint256 i = 0; i < Ls1.length; i++) {
-            if(_verify_row(Ls1[i], Rs2[i], Os1[i])){
+            success = _verify_row(Ls1[i], Rs2[i], Os1[i]);
+            if (!success) {
+                emit LogStr("failed!!");
                 return false;
             }
         }
+        emit LogStr("success!!");
         return true;
     }
 }
