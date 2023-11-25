@@ -24,11 +24,17 @@ eq(a, b)
 
 **********Hint:********** When you get **s** encrypted with both G1 and G2 generators, you don’t know whether or not they have the same discrete logarithm. However, it is straightforward to check using another equation.
 
+The solution can be found under
+`tests/` and
+`contracts/`
+
 ## Problem 2
 
 Why does an R1CS require exactly one multiplication per row?
 
 How does this relate to bilinear pairings?
+
+The solution can be found in q2.md
 
 ## Problem 3: QAP by hand
 
@@ -70,6 +76,8 @@ You can use a computer (Python, sage, etc) to check your work at each step and d
 Check your work by seeing that the polynomial on both sides of the equation is the same.
 
 Refer to the code here: https://www.rareskills.io/post/r1cs-to-qap
+
+The solution can be found in `q3.py`
 
 
 # Virtualenv
